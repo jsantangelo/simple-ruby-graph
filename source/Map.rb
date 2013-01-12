@@ -41,27 +41,25 @@ class Map
 			raise InvalidIntersection, 'Map does not contain at least one of the intersections supplied.'
 		end
 
-		@roads[intersection1] ||= Array.new
-		if @roads[intersection1].length == 0
-			@roads[intersection1].push Road.new intersection2, distance, id
-		else
-			found = false
-			@roads[intersection1].each { |road|
-				found = true if road.intersection == intersection2
-			}
-			@roads[intersection1].push Road.new intersection2, distance, id unless found
-		end
+		tempRoad = Road.new intersection1, intersection2, distance, id
 
+		@roads[intersection1] ||= Array.new
+	
+		found = false
+		@roads[intersection1].each { |road|
+			found = true if road.id == tempRoad.id 
+		}
+		@roads[intersection1].push tempRoad unless found
+	
 		@roads[intersection2] ||= Array.new
-		if @roads[intersection2].length == 0
-			@roads[intersection2].push Road.new intersection1, distance, id
-		else
-			found = false
-			@roads[intersection2].each { |road|
-				found = true if road.intersection == intersection1
-			}
-			@roads[intersection2].push Road.new intersection1, distance, id unless found
-		end		
+		
+		found = false
+		@roads[intersection2].each { |road|
+			found = true if road.id == tempRoad.id
+		}
+		@roads[intersection2].push tempRoad unless found
+
+		timer.attachRoad tempRoad unless timer.alreadyRegistered? tempRoad
 	end
 
 	def removeRoadBetween intersection1, intersection2

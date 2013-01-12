@@ -27,6 +27,7 @@ map.addIntersection intersection3
 
 map.createRoadBetween intersection1, intersection2, 20, "road1"
 map.createRoadBetween intersection2, intersection3, 20, "road2"
+map.createRoadBetween intersection3, intersection2, 20, "road2"
 
 puts "What duration do you wish to run the Simulator for? (0 for no limit)"
 
@@ -34,7 +35,7 @@ timer.readyCallbacks
 
 # STDOUT.flush
 # duration = gets.chomp.to_i
-duration = 10
+duration = 1
 
 timer.duration = duration
 

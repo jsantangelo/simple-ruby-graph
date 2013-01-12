@@ -6,7 +6,7 @@ class Intersection
 	end
 
 	def tick
-		
+		puts "#{id} ticking..."
 	end
 
 end

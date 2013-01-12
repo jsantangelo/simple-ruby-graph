@@ -90,4 +90,17 @@ class TimeControl
 		}
 	end
 
+	def alreadyRegistered? object
+		found = false
+		@roads.each {|road|
+			found = true if road.id == object.id
+		}
+
+		@intersections.each {|intersection|
+			found = true if intersection.id == object.id
+		}
+
+		found
+	end
+
 end
