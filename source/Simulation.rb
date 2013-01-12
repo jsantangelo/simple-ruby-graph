@@ -5,8 +5,6 @@ require 'set'
 
 require_relative 'TimeControl.rb'
 require_relative 'Intersection.rb'
-require_relative 'TrafficLight.rb'
-require_relative 'Car.rb'
 require_relative 'Map.rb'
 
 # algorithm = 
