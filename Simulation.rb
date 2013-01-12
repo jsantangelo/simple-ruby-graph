@@ -3,10 +3,10 @@
 require 'thread'
 require 'set'
 
-require_relative 'TimeControl.rb'
-require_relative 'Intersection.rb'
-require_relative 'Map.rb'
-require_relative 'Road.rb'
+require_relative 'source/TimeControl.rb'
+require_relative 'source/Intersection.rb'
+require_relative 'source/Map.rb'
+require_relative 'source/Road.rb'
 
 puts "Welcome to the Traffic Simulator"
 
