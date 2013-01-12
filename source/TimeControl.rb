@@ -1,17 +1,24 @@
+
+class MapNotFinalized < Exception; end 
+
 class TimeControl
 	attr_accessor :ticks, :start_time, :duration, :running
-	attr_accessor :tickreceiver
+	attr_accessor :roads, :intersections, :callbackHandlers
 
 	attr_accessor :total_time, :efficiency
 
-	def initialize(duration = 0)
+	def initialize
 		@ticks = 0
 		@running = false
 		@duration = duration
+		@callbackHandlers = Array.new
+
+		@roads = Array.new
+		@intersections = Array.new
 	end
 
 	def run
-		unless @tickreceiver.nil?
+		unless @callbackHandlers.length == 0
 			@running = true
 			@start_time = Time.now
 			while @running
@@ -33,8 +40,10 @@ class TimeControl
 	end
 
 	def tick
-		unless @tickreceiver.nil?
-			@tickreceiver.tick
+		unless @callbackHandlers.length == 0
+			@callbackHandlers.each {|handler|
+				handler.tick
+			}
 		end
 	end
 
@@ -46,16 +55,39 @@ class TimeControl
 		@efficiency = @ticks/@total_time
 	end
 
-	def attachReceiver(receiver)
-		if receiver.respond_to?('tick')
-			@tickreceiver = receiver
+	def to_s
+		"Run time: #{@ticks} ticks\nEfficiency: #{@efficiency} ticks/sec\n"
+	end
+
+	def attachRoad road
+		@roads.push road
+	end
+
+	def attachIntersection intersection
+		@intersections.push intersection
+	end
+
+	def readyCallbacks
+		@roads.each {|road|
+			addCallback road
+		}
+		@intersections.each {|intersection|
+			addCallback intersection
+		}
+	end
+
+	def addCallback handler
+		if handler.respond_to?('tick')
+			@callbackHandlers.push handler
 		else
 			puts "Invalid callback."
 		end
 	end
 
-	def to_s
-		"Run time: #{@ticks} ticks\nEfficiency: #{@efficiency} ticks/sec\n"
+	def printCallbacks
+		@callbackHandlers.each {|callback|
+			puts callback.id
+		}
 	end
 
 end

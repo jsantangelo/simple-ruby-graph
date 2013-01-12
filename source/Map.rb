@@ -2,18 +2,22 @@
 class InvalidIntersection < Exception; end
 class NoRoadsDefined < Exception; end
 
-Road = Struct.new(:intersection, :distance)
-
 class Map
-	attr_accessor :intersections
+	attr_accessor :intersections, :roads
+	attr_accessor :finalized
+	attr_accessor :timer
 
-	def initialize
+	def initialize timer
 		@intersections = Set.new
 		@roads = Hash.new
+
+		@timer = timer
 	end
 
-	def addIntersections *intersections
-		@intersections.merge intersections
+	def addIntersection intersection
+		unless (@intersections.add? intersection) == nil
+			@timer.attachIntersection intersection
+		end
 	end
 
 	def removeIntersection intersection
@@ -32,31 +36,31 @@ class Map
 		@intersections.delete intersection
 	end
 
-	def createRoadBetween intersection1, intersection2, distance
+	def createRoadBetween intersection1, intersection2, distance, id
 		if !@intersections.include? intersection1 or !@intersections.include? intersection2
 			raise InvalidIntersection, 'Map does not contain at least one of the intersections supplied.'
 		end
 
 		@roads[intersection1] ||= Array.new
 		if @roads[intersection1].length == 0
-			@roads[intersection1].push Road.new(intersection2, distance)
+			@roads[intersection1].push Road.new intersection2, distance, id
 		else
 			found = false
 			@roads[intersection1].each { |road|
 				found = true if road.intersection == intersection2
 			}
-			@roads[intersection1].push Road.new(intersection2, distance) unless found
+			@roads[intersection1].push Road.new intersection2, distance, id unless found
 		end
 
 		@roads[intersection2] ||= Array.new
 		if @roads[intersection2].length == 0
-			@roads[intersection2].push Road.new(intersection1, distance)
+			@roads[intersection2].push Road.new intersection1, distance, id
 		else
 			found = false
 			@roads[intersection2].each { |road|
 				found = true if road.intersection == intersection1
 			}
-			@roads[intersection2].push Road.new(intersection1, distance) unless found
+			@roads[intersection2].push Road.new intersection1, distance, id unless found
 		end		
 	end
 
