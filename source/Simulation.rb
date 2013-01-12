@@ -16,7 +16,7 @@ puts "Please specify the configuraton file you would like to use to create the r
 
 timer = TimeControl.new
 
-map = Map.new(timer)
+map = Map.new timer
 intersection1 = Intersection.new "int1"
 intersection2 = Intersection.new "int2"
 intersection3 = Intersection.new "int3"

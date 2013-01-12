@@ -10,6 +10,6 @@ class Road
 	end
 
 	def tick
-		puts "#{id} ticking..."
+
 	end
 end
