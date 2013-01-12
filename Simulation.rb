@@ -2,6 +2,9 @@
 
 require 'thread'
 require 'set'
+require 'yaml'
+
+class FileNotFound < Exception; end
 
 require_relative 'source/TimeControl.rb'
 require_relative 'source/Intersection.rb'
@@ -11,6 +14,18 @@ require_relative 'source/Road.rb'
 puts "Welcome to the Traffic Simulator"
 
 puts "Please specify the configuraton file you would like to use to create the road network:"
+
+#STDOUT.flush
+# configfile = gets.chomp
+configfile = 'basic.yml'
+
+configfile = 'config/' + configfile
+
+unless File.exists? configfile
+	raise FileNotFound, 'File does not exist.'
+end
+thing = YAML.load_file configfile
+puts  thing.inspect
 
 #TODO: create map out of config file
 
