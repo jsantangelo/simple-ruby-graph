@@ -6,7 +6,7 @@ require 'yaml'
 
 class FileNotFound < Exception; end
 
-require_relative 'source/TimeControl.rb'
+require_relative 'source/CallbackRegistrar.rb'
 require_relative 'source/Node.rb'
 require_relative 'source/Graph.rb'
 require_relative 'source/Edge.rb'
