@@ -90,7 +90,7 @@ class Graph
 			puts 'Specified node does not have any edges.'
 		else
 			@edges[node].each {|edge|
-				puts "#{edge.node1.id} --#{edge.weight.to_s}-- #{edge.node2.id}"
+				puts "#{edge.id}: #{edge.node1.id} --#{edge.weight.to_s}-- #{edge.node2.id}"
 			}
 		end
 	end
