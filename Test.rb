@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-#This file is meant to test/exercise the various components of the Simple Ruby Graph.
+#This file is meant to test/exercise the various components of the Simple Ruby manualGraph.
 
 require 'thread'
 require 'set'
@@ -15,7 +15,9 @@ require_relative 'source/Edge.rb'
 
 puts "Testing the Simple Ruby Graph"
 
-puts "Please specify the configuraton file you would like to use to create the graph:"
+puts "=== Testing configuration ==="
+
+puts "Please specify the configuraton file you would like to use to create the manualGraph:"
 
 #STDOUT.flush
 # configfile = gets.chomp
@@ -33,41 +35,52 @@ puts  thing.inspect
 
 registrar = CallbackRegistrar.new
 
-graph = Graph.new registrar
+puts "=== Testing Graph ==="
+puts ""
+manualGraph = Graph.new registrar
 node1 = Node.new "A"
 node2 = Node.new "B"
 node3 = Node.new "C"
 node4 = Node.new "D"
 
-graph.addNode node1
-graph.addNode node2
-graph.addNode node3
-graph.addNode node4
+manualGraph.addNode node1
+manualGraph.addNode node2
+manualGraph.addNode node3
+manualGraph.addNode node4
 
-graph.createEdgeBetween node1, node4, 20, "AD"
+manualGraph.createEdgeBetween node1, node4, 20, "AD"
 
-graph.printEdges node1
+manualGraph.printEdges node1
 
-graph.removeNode node4
+manualGraph.removeNode node4
 
-graph.printNodes
-graph.printEdges node1
+manualGraph.printEdges node1
 
-graph.createEdgeBetween node1, node2, 20, "AB"
-graph.createEdgeBetween node2, node3, 20, "BC"
-graph.createEdgeBetween node3, node2, 20, "CB"
-graph.createEdgeBetween node1, node3, 10, "AC"
-graph.removeEdgeBetween node1, node3
+puts ""
+
+manualGraph.createEdgeBetween node1, node2, 20, "AB"
+manualGraph.createEdgeBetween node2, node3, 20, "BC"
+manualGraph.createEdgeBetween node3, node2, 20, "CB"
+manualGraph.createEdgeBetween node1, node3, 10, "AC"
+manualGraph.removeEdgeBetween node1, node3
 
 puts "Nodes:"
-graph.printNodes
+manualGraph.printNodes
 puts "Edges (#{node1.id}):"
-graph.printEdges node1
+manualGraph.printEdges node1
 puts "Edges (#{node2.id}):"
-graph.printEdges node2
+manualGraph.printEdges node2
 puts "Edges (#{node3.id}):"
-graph.printEdges node3
+manualGraph.printEdges node3
 
+puts ""
+puts "Graph without Registrar"
+nrGraph = Graph.new
+nrGraph.addNode node1
+nrGraph.printNodes
+
+puts ""
+puts "=== Testing CallbackRegistrar ==="
 print "What duration do you wish to run the registrar for? (0 for no limit) "
 
 registrar.readyCallbacks

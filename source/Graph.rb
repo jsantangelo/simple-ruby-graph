@@ -7,7 +7,7 @@ class Graph
 	attr_accessor :finalized
 	attr_accessor :timer
 
-	def initialize timer
+	def initialize timer = nil
 		@nodes = Set.new
 		@edges = Hash.new
 
@@ -16,7 +16,7 @@ class Graph
 
 	def addNode node
 		unless (@nodes.add? node) == nil
-			@timer.attachNode node
+			@timer.attachNode node unless @timer == nil
 		end
 	end
 
@@ -63,7 +63,7 @@ class Graph
 		}
 		@edges[node2].push tempEdge unless found
 
-		timer.attachEdge tempEdge unless timer.alreadyRegistered? tempEdge
+		@timer.attachEdge tempEdge unless @timer.alreadyRegistered? tempEdge or @timer == nil
 	end
 
 	def removeEdgeBetween node1, node2
