@@ -33,11 +33,15 @@ class Graph
 
 		connectedNodes.each {|connectedNode|
 			@edges[connectedNode].each {|edge|
-					@edges[connectedNode].delete edge if edge.node1.id == node.id or edge.node2.id == node.id
+				if edge.node1.id == node.id or edge.node2.id == node.id
+					@edges[connectedNode].delete edge
+					@timer.detachEdge edge
+				end
 			}
 		}
 
 		@nodes.delete node
+		@timer.detachNode node
 	end
 
 	def createEdgeBetween node1, node2, weight, id
@@ -67,12 +71,19 @@ class Graph
 	end
 
 	def removeEdgeBetween node1, node2
+		edgesToBeRemoved = Array.new
 		@edges[node1].delete_if {|edge|
+			edgesToBeRemoved.push edge if edge.node2.id == node2.id
 			edge.node2.id == node2.id
 		}
 
 		@edges[node2].delete_if {|edge|
+			edgesToBeRemoved.push edge if edge.node1.id == node1.id
 			edge.node1.id == node1.id
+		}
+
+		edgesToBeRemoved.each {|edge|
+			@timer.detachEdge edge
 		}
 	end
 

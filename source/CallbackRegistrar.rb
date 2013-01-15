@@ -63,8 +63,16 @@ class CallbackRegistrar
 		@edges.push edge
 	end
 
+	def detachEdge edge
+		@edges.delete edge
+	end
+
 	def attachNode node
 		@nodes.push node
+	end
+
+	def detachNode node
+		@nodes.delete node
 	end
 
 	def readyCallbacks
