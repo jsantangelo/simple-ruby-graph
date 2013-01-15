@@ -11,7 +11,7 @@ require_relative 'source/Node.rb'
 require_relative 'source/Graph.rb'
 require_relative 'source/Edge.rb'
 
-puts "Welcome to the Traffic Simulator"
+puts "Testing the Simple Ruby Graph"
 
 puts "Please specify the configuraton file you would like to use to create the road network:"
 
@@ -31,20 +31,20 @@ puts  thing.inspect
 
 timer = TimeControl.new
 
-map = Graph.new timer
-intersection1 = Node.new "int1"
-intersection2 = Node.new "int2"
-intersection3 = Node.new "int3"
+graph = Graph.new timer
+node1 = Node.new "A"
+node2 = Node.new "B"
+node3 = Node.new "C"
 
-map.addIntersection intersection1
-map.addIntersection intersection2
-map.addIntersection intersection3
+graph.addIntersection node1
+graph.addIntersection node2
+graph.addIntersection node3
 
-map.createRoadBetween intersection1, intersection2, 20, "road1"
-map.createRoadBetween intersection2, intersection3, 20, "road2"
-map.createRoadBetween intersection3, intersection2, 20, "road2"
+graph.createRoadBetween node1, node2, 20, "AB"
+graph.createRoadBetween node2, node3, 20, "BC"
+graph.createRoadBetween node3, node2, 20, "CB"
 
-puts "What duration do you wish to run the Simulator for? (0 for no limit)"
+puts "What duration do you wish to run the timer for? (0 for no limit)"
 
 timer.readyCallbacks
 
