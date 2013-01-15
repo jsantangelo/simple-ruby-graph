@@ -21,15 +21,19 @@ class Graph
 	end
 
 	def removeNode node
-		adjacent = Array.new
-		@edges[node].each {|edge|
-			adjacent.push edge.node
-		}
-		@edges.delete node
+		connectedNodes = Array.new
+		
+		if @edges[node] != nil
+			@edges[node].each {|edge|
+				connectedNodes.push edge.node1 unless edge.node1.id == node.id
+				connectedNodes.push edge.node2 unless edge.node2.id == node.id
+			}
+			@edges.delete node
+		end
 
-		adjacent.each {|adjacentNode|
-			@edges[adjacentNode].delete_if {|edge|
-				edge.node.id == node.id #why is this necessary?
+		connectedNodes.each {|connectedNode|
+			@edges[connectedNode].each {|edge|
+					@edges[connectedNode].delete edge if edge.node1.id == node.id or edge.node2.id == node.id
 			}
 		}
 
@@ -64,11 +68,11 @@ class Graph
 
 	def removeEdgeBetween node1, node2
 		@edges[node1].delete_if {|edge|
-			edge.intersection.id == node2.id
+			edge.node2.id == node2.id
 		}
 
 		@edges[node2].delete_if {|edge|
-			edge.intersection.id == node1.id
+			edge.node1.id == node1.id
 		}
 	end
 
@@ -86,7 +90,7 @@ class Graph
 			puts 'Specified node does not have any edges.'
 		else
 			@edges[node].each {|edge|
-				puts "#{node.id} --#{edge.weight.to_s}-- #{edge.node.id}"
+				puts "#{edge.node1.id} --#{edge.weight.to_s}-- #{edge.node2.id}"
 			}
 		end
 	end

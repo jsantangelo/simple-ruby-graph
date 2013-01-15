@@ -41,7 +41,15 @@ graph.addNode node1
 graph.addNode node2
 graph.addNode node3
 graph.addNode node4
+
+graph.createEdgeBetween node1, node4, 20, "AD"
+
+graph.printEdges node1
+
 graph.removeNode node4
+
+graph.printNodes
+graph.printEdges node1
 
 graph.createEdgeBetween node1, node2, 20, "AB"
 graph.createEdgeBetween node2, node3, 20, "BC"
