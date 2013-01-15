@@ -6,7 +6,6 @@ class Node
 	end
 
 	def callback
-
+		puts "Node #{id} callback."
 	end
-
 end

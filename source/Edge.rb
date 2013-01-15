@@ -10,6 +10,6 @@ class Edge
 	end
 
 	def callback
-
+		puts "Edge #{id} callback."
 	end
 end
