@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+#This file is meant to test/exercise the various components of the Simple Ruby Graph.
+
 require 'thread'
 require 'set'
 require 'yaml'
@@ -66,12 +68,13 @@ graph.printEdges node2
 puts "Edges (#{node3.id}):"
 graph.printEdges node3
 
-puts "What duration do you wish to run the registrar for? (0 for no limit)"
+print "What duration do you wish to run the registrar for? (0 for no limit) "
 
 registrar.readyCallbacks
 
 # STDOUT.flush
 # duration = gets.chomp.to_i
+puts ""
 duration = 1
 
 registrar.duration = duration
