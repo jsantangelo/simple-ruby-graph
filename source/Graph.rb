@@ -1,92 +1,92 @@
 
-class InvalidIntersection < Exception; end
-class NoRoadsDefined < Exception; end
+class InvalidNode < Exception; end
+class NoEdgesDefined < Exception; end
 
 class Graph
-	attr_accessor :intersections, :roads
+	attr_accessor :nodes, :edges
 	attr_accessor :finalized
 	attr_accessor :timer
 
 	def initialize timer
-		@intersections = Set.new
-		@roads = Hash.new
+		@nodes = Set.new
+		@edges = Hash.new
 
 		@timer = timer
 	end
 
-	def addIntersection intersection
-		unless (@intersections.add? intersection) == nil
-			@timer.attachIntersection intersection
+	def addNode node
+		unless (@nodes.add? node) == nil
+			@timer.attachNode node
 		end
 	end
 
-	def removeIntersection intersection
+	def removeNode node
 		adjacent = Array.new
-		@roads[intersection].each {|road|
-			adjacent.push road.intersection
+		@edges[node].each {|edge|
+			adjacent.push edge.node
 		}
-		@roads.delete intersection
+		@edges.delete node
 
-		adjacent.each {|adjacentIntersection|
-			@roads[adjacentIntersection].delete_if {|road|
-				road.intersection.id == intersection.id #why is this necessary?
+		adjacent.each {|adjacentNode|
+			@edges[adjacentNode].delete_if {|edge|
+				edge.node.id == node.id #why is this necessary?
 			}
 		}
 
-		@intersections.delete intersection
+		@nodes.delete node
 	end
 
-	def createRoadBetween intersection1, intersection2, distance, id
-		if !@intersections.include? intersection1 or !@intersections.include? intersection2
-			raise InvalidIntersection, 'Map does not contain at least one of the intersections supplied.'
+	def createEdgeBetween node1, node2, weight, id
+		if !@nodes.include? node1 or !@nodes.include? node2
+			raise InvalidNode, 'Graph does not contain at least one of the nodes supplied.'
 		end
 
-		tempRoad = Edge.new intersection1, intersection2, distance, id
+		tempEdge = Edge.new node1, node2, weight, id
 
-		@roads[intersection1] ||= Array.new
+		@edges[node1] ||= Array.new
 	
 		found = false
-		@roads[intersection1].each { |road|
-			found = true if road.id == tempRoad.id 
+		@edges[node1].each { |edge|
+			found = true if edge.id == tempEdge.id 
 		}
-		@roads[intersection1].push tempRoad unless found
+		@edges[node1].push tempEdge unless found
 	
-		@roads[intersection2] ||= Array.new
+		@edges[node2] ||= Array.new
 		
 		found = false
-		@roads[intersection2].each { |road|
-			found = true if road.id == tempRoad.id
+		@edges[node2].each { |edge|
+			found = true if edge.id == tempEdge.id
 		}
-		@roads[intersection2].push tempRoad unless found
+		@edges[node2].push tempEdge unless found
 
-		timer.attachRoad tempRoad unless timer.alreadyRegistered? tempRoad
+		timer.attachEdge tempEdge unless timer.alreadyRegistered? tempEdge
 	end
 
-	def removeRoadBetween intersection1, intersection2
-		@roads[intersection1].delete_if {|road|
-			road.intersection.id == intersection2.id
+	def removeEdgeBetween node1, node2
+		@edges[node1].delete_if {|edge|
+			edge.intersection.id == node2.id
 		}
 
-		@roads[intersection2].delete_if {|road|
-			road.intersection.id == intersection1.id
+		@edges[node2].delete_if {|edge|
+			edge.intersection.id == node1.id
 		}
 	end
 
-	def printIntersections
-		@intersections.each {|intersection| puts intersection.id}
+	def printNodes
+		@nodes.each {|node| puts node.id}
 	end
 
-	def printRoads intersection
-		if !@intersections.include? intersection
-			raise InvalidIntersection, 'Map does not contain the intersection supplied.'
+	def printEdges node
+		if !@nodes.include? node
+			raise InvalidNode, 'Graph does not contain the node supplied.'
 		end
 
-		@roads[intersection] ||= Array.new
-		if @roads[intersection].length == 0
-			puts 'Specified intersection does not have any roads.'
+		@edges[node] ||= Array.new
+		if @edges[node].length == 0
+			puts 'Specified node does not have any edges.'
 		else
-			@roads[intersection].each {|road|
-				puts "#{intersection.id} --#{road.distance.to_s}-- #{road.intersection.id}"
+			@edges[node].each {|edge|
+				puts "#{node.id} --#{edge.weight.to_s}-- #{edge.node.id}"
 			}
 		end
 	end

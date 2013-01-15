@@ -36,13 +36,13 @@ node1 = Node.new "A"
 node2 = Node.new "B"
 node3 = Node.new "C"
 
-graph.addIntersection node1
-graph.addIntersection node2
-graph.addIntersection node3
+graph.addNode node1
+graph.addNode node2
+graph.addNode node3
 
-graph.createRoadBetween node1, node2, 20, "AB"
-graph.createRoadBetween node2, node3, 20, "BC"
-graph.createRoadBetween node3, node2, 20, "CB"
+graph.createEdgeBetween node1, node2, 20, "AB"
+graph.createEdgeBetween node2, node3, 20, "BC"
+graph.createEdgeBetween node3, node2, 20, "CB"
 
 puts "What duration do you wish to run the timer for? (0 for no limit)"
 

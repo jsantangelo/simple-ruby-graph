@@ -5,7 +5,7 @@ class Node
 		@id = id
 	end
 
-	def tick
+	def callback
 
 	end
 

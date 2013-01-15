@@ -1,15 +1,15 @@
 class Edge
-	attr_accessor :intersection1, :intersection2, :distance
+	attr_accessor :node1, :node2, :weight
 	attr_accessor :id
 
-	def initialize intersection1, intersection2, distance, id
-		@intersection1 = intersection1
-		@intersection2 = intersection2
-		@distance = distance
+	def initialize node1, node2, weight, id
+		@node1 = node1
+		@node2 = node2
+		@weight = weight
 		@id = id
 	end
 
-	def tick
+	def callback
 
 	end
 end

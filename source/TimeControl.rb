@@ -3,7 +3,7 @@ class MapNotFinalized < Exception; end
 
 class TimeControl
 	attr_accessor :ticks, :start_time, :duration, :running
-	attr_accessor :roads, :intersections, :callbackHandlers
+	attr_accessor :edges, :nodes, :callbackHandlers
 
 	attr_accessor :total_time, :efficiency
 
@@ -13,8 +13,8 @@ class TimeControl
 		@duration = duration
 		@callbackHandlers = Array.new
 
-		@roads = Array.new
-		@intersections = Array.new
+		@edges = Array.new
+		@nodes = Array.new
 	end
 
 	def run
@@ -42,7 +42,7 @@ class TimeControl
 	def tick
 		unless @callbackHandlers.length == 0
 			@callbackHandlers.each {|handler|
-				handler.tick
+				handler.callback
 			}
 		end
 	end
@@ -59,25 +59,25 @@ class TimeControl
 		"Run time: #{@ticks} ticks\nEfficiency: #{@efficiency} ticks/sec\n"
 	end
 
-	def attachRoad road
-		@roads.push road
+	def attachEdge edge
+		@edges.push edge
 	end
 
-	def attachIntersection intersection
-		@intersections.push intersection
+	def attachNode node
+		@nodes.push node
 	end
 
 	def readyCallbacks
-		@roads.each {|road|
-			addCallback road
+		@edges.each {|edge|
+			addCallback edge
 		}
-		@intersections.each {|intersection|
-			addCallback intersection
+		@nodes.each {|node|
+			addCallback node
 		}
 	end
 
 	def addCallback handler
-		if handler.respond_to?('tick')
+		if handler.respond_to?('callback')
 			@callbackHandlers.push handler
 		else
 			puts "Invalid callback."
@@ -85,19 +85,19 @@ class TimeControl
 	end
 
 	def printCallbacks
-		@callbackHandlers.each {|callback|
-			puts callback.id
+		@callbackHandlers.each {|handler|
+			puts handler.id
 		}
 	end
 
 	def alreadyRegistered? object
 		found = false
-		@roads.each {|road|
-			found = true if road.id == object.id
+		@edges.each {|edge|
+			found = true if edge.id == object.id
 		}
 
-		@intersections.each {|intersection|
-			found = true if intersection.id == object.id
+		@nodes.each {|node|
+			found = true if node.id == object.id
 		}
 
 		found
