@@ -13,7 +13,7 @@ require_relative 'source/Edge.rb'
 
 puts "Testing the Simple Ruby Graph"
 
-puts "Please specify the configuraton file you would like to use to create the road network:"
+puts "Please specify the configuraton file you would like to use to create the graph:"
 
 #STDOUT.flush
 # configfile = gets.chomp
@@ -29,9 +29,9 @@ puts  thing.inspect
 
 #TODO: create map out of config file
 
-timer = TimeControl.new
+registrar = CallbackRegistrar.new
 
-graph = Graph.new timer
+graph = Graph.new registrar
 node1 = Node.new "A"
 node2 = Node.new "B"
 node3 = Node.new "C"
@@ -44,28 +44,28 @@ graph.createEdgeBetween node1, node2, 20, "AB"
 graph.createEdgeBetween node2, node3, 20, "BC"
 graph.createEdgeBetween node3, node2, 20, "CB"
 
-puts "What duration do you wish to run the timer for? (0 for no limit)"
+puts "What duration do you wish to run the registrar for? (0 for no limit)"
 
-timer.readyCallbacks
+registrar.readyCallbacks
 
 # STDOUT.flush
 # duration = gets.chomp.to_i
 duration = 1
 
-timer.duration = duration
+registrar.duration = duration
 
-timerThread = Thread.new{
-	timer.run
-	Thread.current["result"] = timer.to_s
+callbackThread = Thread.new{
+	registrar.run
+	Thread.current["result"] = registrar.to_s
 }
 if duration == 0
 	print "Press [Enter] to stop."
 	gets
-	timer.running = false
+	registrar.running = false
 end
 
-timerThread.join
+callbackThread.join
 
 puts ""
-puts "Simulation Results:"
-puts timerThread["result"]
+puts "Callback Results:"
+puts callbackThread["result"]

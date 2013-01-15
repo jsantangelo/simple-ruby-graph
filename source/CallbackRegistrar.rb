@@ -1,7 +1,7 @@
 
 class MapNotFinalized < Exception; end 
 
-class TimeControl
+class CallbackRegistrar
 	attr_accessor :ticks, :start_time, :duration, :running
 	attr_accessor :edges, :nodes, :callbackHandlers
 
@@ -24,13 +24,13 @@ class TimeControl
 			while @running
 				if @duration != 0
 					if @ticks < @duration
-						tick
+						callback
 						@ticks += 1
 					else
 						@running = false
 					end
 				else
-					tick
+					callback
 					@ticks += 1
 				end
 			end
@@ -39,7 +39,7 @@ class TimeControl
 		end
 	end
 
-	def tick
+	def callback
 		unless @callbackHandlers.length == 0
 			@callbackHandlers.each {|handler|
 				handler.callback
