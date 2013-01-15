@@ -1,4 +1,4 @@
-class Road
+class Edge
 	attr_accessor :intersection1, :intersection2, :distance
 	attr_accessor :id
 

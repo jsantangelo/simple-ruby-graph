@@ -2,7 +2,7 @@
 class InvalidIntersection < Exception; end
 class NoRoadsDefined < Exception; end
 
-class Map
+class Graph
 	attr_accessor :intersections, :roads
 	attr_accessor :finalized
 	attr_accessor :timer
@@ -41,7 +41,7 @@ class Map
 			raise InvalidIntersection, 'Map does not contain at least one of the intersections supplied.'
 		end
 
-		tempRoad = Road.new intersection1, intersection2, distance, id
+		tempRoad = Edge.new intersection1, intersection2, distance, id
 
 		@roads[intersection1] ||= Array.new
 	

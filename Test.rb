@@ -7,9 +7,9 @@ require 'yaml'
 class FileNotFound < Exception; end
 
 require_relative 'source/TimeControl.rb'
-require_relative 'source/Intersection.rb'
-require_relative 'source/Map.rb'
-require_relative 'source/Road.rb'
+require_relative 'source/Node.rb'
+require_relative 'source/Graph.rb'
+require_relative 'source/Edge.rb'
 
 puts "Welcome to the Traffic Simulator"
 
@@ -31,10 +31,10 @@ puts  thing.inspect
 
 timer = TimeControl.new
 
-map = Map.new timer
-intersection1 = Intersection.new "int1"
-intersection2 = Intersection.new "int2"
-intersection3 = Intersection.new "int3"
+map = Graph.new timer
+intersection1 = Node.new "int1"
+intersection2 = Node.new "int2"
+intersection3 = Node.new "int3"
 
 map.addIntersection intersection1
 map.addIntersection intersection2

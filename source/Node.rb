@@ -1,4 +1,4 @@
-class Intersection
+class Node
 	attr_accessor :id
 
 	def initialize id
