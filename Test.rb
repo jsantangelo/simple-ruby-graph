@@ -35,14 +35,28 @@ graph = Graph.new registrar
 node1 = Node.new "A"
 node2 = Node.new "B"
 node3 = Node.new "C"
+node4 = Node.new "D"
 
 graph.addNode node1
 graph.addNode node2
 graph.addNode node3
+graph.addNode node4
+graph.removeNode node4
 
 graph.createEdgeBetween node1, node2, 20, "AB"
 graph.createEdgeBetween node2, node3, 20, "BC"
 graph.createEdgeBetween node3, node2, 20, "CB"
+graph.createEdgeBetween node1, node3, 10, "AC"
+graph.removeEdgeBetween node1, node3
+
+puts "Nodes:"
+graph.printNodes
+puts "Edges (#{node1.id}):"
+graph.printEdges node1
+puts "Edges (#{node2.id}):"
+graph.printEdges node2
+puts "Edges (#{node3.id}):"
+graph.printEdges node3
 
 puts "What duration do you wish to run the registrar for? (0 for no limit)"
 
