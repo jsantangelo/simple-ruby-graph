@@ -2,3 +2,5 @@
 *
 #Except this file
 !.gitignore
+#And the basic config file
+!basic.yml
