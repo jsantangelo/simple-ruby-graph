@@ -16,9 +16,14 @@ How To Use
 
 To exercise (and demonstrate) all of the features simple-ruby-graph has, simply type:
 
-	./Test.rb
+	./Demo.rb
 
 from the main source directory. Alternatively, you can specify `ruby` as the executor:
 
-	ruby Test.rb
+	ruby Demo.rb
 
+Future Work
+-----------
+
+- [ ] Add YAML configuration to graph generation.
+- [x] Put source under unit test.
