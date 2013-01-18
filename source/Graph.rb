@@ -34,10 +34,10 @@ class Graph
 			}
 		end
 
-		edges.each_key {|node|
-			@edges[node].each {|edge|
+		edges.each_key {|existingNode|
+			@edges[existingNode].each {|edge|
 				if edge.node2.id == node.id
-					@edges[node].delete edge
+					@edges[existingNode].delete edge
 					@timer.detachEdge edge
 				end
 			}
