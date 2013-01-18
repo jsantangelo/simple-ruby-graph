@@ -23,11 +23,13 @@ class GraphTest < Test::Unit::TestCase
 
 	def test_intialization
 		registrar = CallbackRegistrar.new
+		graphWithNoRegistrar = Graph.new
+		graphWithRegistrar = Graph.new registrar
 
-		assert_not_nil Graph.new.nodes
-		assert_not_nil Graph.new.edges
-		assert_nil Graph.new.timer
-		assert_not_nil Graph.new(registrar).timer
+		assert_not_nil graphWithNoRegistrar.nodes
+		assert_not_nil graphWithNoRegistrar.edges
+		assert_nil graphWithNoRegistrar.timer
+		assert_not_nil graphWithRegistrar.timer
 	end
 
 	def test_addNode
