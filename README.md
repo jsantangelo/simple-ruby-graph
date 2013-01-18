@@ -25,5 +25,5 @@ from the main source directory. Alternatively, you can specify `ruby` as the exe
 Future Work
 -----------
 
-[ ] Add YAML configuration to graph generation.
-[x] Put source under unit test.
+* Add YAML configuration to graph generation.
+* Put source under unit test. _Done!_
