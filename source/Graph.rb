@@ -15,26 +15,29 @@ class Graph
 	end
 
 	def addNode node
-		unless (@nodes.add? node) == nil
+		found = false
+		@nodes.each {|existingNode|
+			found = true if existingNode.id == node.id
+		}
+
+		unless (@nodes.add? node) == nil or found
 			@timer.attachNode node unless @timer == nil
+			@edges[node] ||= Array.new
 		end
 	end
 
-	def removeNode node
-		connectedNodes = Array.new
-		
+	def removeNode node		
 		if @edges[node] != nil
 			@edges[node].each {|edge|
-				connectedNodes.push edge.node1 unless edge.node1.id == node.id
-				connectedNodes.push edge.node2 unless edge.node2.id == node.id
+				@edges[node].delete edge
+				@timer.detachEdge edge
 			}
-			@edges.delete node
 		end
 
-		connectedNodes.each {|connectedNode|
-			@edges[connectedNode].each {|edge|
-				if edge.node1.id == node.id or edge.node2.id == node.id
-					@edges[connectedNode].delete edge
+		edges.each_key {|node|
+			@edges[node].each {|edge|
+				if edge.node2.id == node.id
+					@edges[node].delete edge
 					@timer.detachEdge edge
 				end
 			}
@@ -55,19 +58,11 @@ class Graph
 	
 		found = false
 		@edges[node1].each { |edge|
-			found = true if edge.id == tempEdge.id 
+			found = true if edge.node2.id == tempEdge.node2.id or edge.id == tempEdge.id 
 		}
 		@edges[node1].push tempEdge unless found
-	
-		@edges[node2] ||= Array.new
-		
-		found = false
-		@edges[node2].each { |edge|
-			found = true if edge.id == tempEdge.id
-		}
-		@edges[node2].push tempEdge unless found
 
-		@timer.attachEdge tempEdge unless @timer.alreadyRegistered? tempEdge or @timer == nil
+		@timer.attachEdge tempEdge unless found or @timer == nil or @timer.alreadyRegistered? tempEdge
 	end
 
 	def removeEdgeBetween node1, node2
@@ -75,11 +70,6 @@ class Graph
 		@edges[node1].delete_if {|edge|
 			edgesToBeRemoved.push edge if edge.node2.id == node2.id
 			edge.node2.id == node2.id
-		}
-
-		@edges[node2].delete_if {|edge|
-			edgesToBeRemoved.push edge if edge.node1.id == node1.id
-			edge.node1.id == node1.id
 		}
 
 		edgesToBeRemoved.each {|edge|
