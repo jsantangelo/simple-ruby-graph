@@ -1,6 +1,4 @@
 
-class MapNotFinalized < Exception; end 
-
 class CallbackRegistrar
 	attr_accessor :ticks, :start_time, :duration, :running
 	attr_accessor :edges, :nodes, :callbackHandlers
@@ -10,9 +8,8 @@ class CallbackRegistrar
 	def initialize
 		@ticks = 0
 		@running = false
-		@duration = duration
+		@duration = 0
 		@callbackHandlers = Array.new
-
 		@edges = Array.new
 		@nodes = Array.new
 	end
